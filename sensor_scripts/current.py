@@ -1,13 +1,22 @@
 #!/usr/bin/python
 
-import Adafruit_DHT
+from Adafruit_BME280 import *
 
-sensor = Adafruit_DHT.DHT22
-pin = 4
+#sensor = BME280(mode=BME280_OSAMPLE_8)
+sensor = BME280(t_mode=BME280_OSAMPLE_8,p_mode=BME280_OSAMPLE_8,h_mode=BME280_OSAMPLE_8)
+
+# Altitude in meters to calculate sea-level pressure
+altitude = 67
 
 try:
-    humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
-    print '{0:0.1f}\n{1}'.format(temperature, int(humidity))
+    temperature = sensor.read_temperature()
+    humidity = sensor.read_humidity()
+    pascals = sensor.read_pressure()
+    hectopascals = pascals / 100
+    # Adjust pressure to sea level
+    hectopascals = hectopascals*(1-(0.0065 * altitude)/(temperature + 0.0065 * altitude + 273.15))**(-5.257)
+
+    print '{0:0.1f}\n{1}\n{2:0.2f}'.format(temperature, int(humidity), hectopascals)
 except RuntimeError as e:
     print 'error\n{0}'.format(e)
 except:
