@@ -4,7 +4,8 @@ import Adafruit_DHT
 import sqlite3
 import os
 
-sensor = Adafruit_DHT.DHT22
+#sensor = Adafruit_DHT.DHT22
+sensor = BME280(t_mode=BME280_OSAMPLE_8, p_mode=BME280_OSAMPLE_8, h_mode=BME280_OSAMPLE_8)
 pin = 4
 
 humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
