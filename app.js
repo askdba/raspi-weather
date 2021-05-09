@@ -9,7 +9,7 @@ var routes = require('./routes/index');
 var APIroutes = require('./routes/api');
 
 var app = express();
-var port = 3000;
+var port = 4000;
 app.set('port', port);
 
 var server = http.createServer(app);
